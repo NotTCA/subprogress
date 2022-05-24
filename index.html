@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    body {
+      background-color: #36393e;
+    }
+    @font-face {
+      src: url(Ubuntu-Bold.ttf);
+      font-family: "Ubuntu";
+    }
+    .myProgress {
+      width: 100%;
+      background-color: #53575f;
+      border-radius: 25px;
+    }
+
+    .myBar {
+      width: 0%;
+      height: 30px;
+      background-color: #fffb00;
+      text-align: center;
+      line-height: 30px;
+      opacity: 0;
+      font-family: "Ubuntu";
+      border-radius: 25px;
+    }
+
+    .nice {
+      width: 100%;
+      text-align: right;
+      font-family: "Ubuntu";
+      font-size: 20px;
+      color: white;
+    }
+
+    .nice2 {
+      font-family: "Ubuntu";
+      font-size: 20px;
+      position: absolute;
+      color: white;
+    }
+
+    .header {
+      font-family: "Ubuntu";
+      color: white;
+    }
+
+    #subCount {
+      font-family: "Ubuntu";
+      font-size: 20px;
+      color: white;
+    }
+  </style>
+  <body>
+    <h1 class="header">TCA's Subscriber Progress Bars</h1>
+
+    <div class="myProgress">
+      <div class="myBar" id="bar1">0%</div>
+    </div>
+    <span class="nice2">0</span>
+    <div class="nice">
+      <span>500</span>
+    </div>
+
+    <br />
+
+    <div class="myProgress">
+      <div class="myBar" id="bar2">0%</div>
+    </div>
+    <span class="nice2">0</span>
+    <div class="nice">
+      <span>1,000</span>
+    </div>
+
+    <br />
+
+    <div class="myProgress">
+      <div class="myBar" id="bar3">0%</div>
+    </div>
+    <span class="nice2">0</span>
+    <div class="nice">
+      <span>1,500</span>
+    </div>
+
+    <br />
+
+    <div class="myProgress">
+      <div class="myBar" id="bar4">0%</div>
+    </div>
+    <span class="nice2">0</span>
+    <div class="nice">
+      <span>2,000</span>
+    </div>
+
+    <br />
+    <span id="subCount">Current subscriber count: 0</span>
+
+    <script>
+      var i = 0;
+      window.onload = async function OnLoad() {
+        if (i == 0) {
+          i = 1;
+          var elem1 = document.getElementById("bar1");
+          var elem2 = document.getElementById("bar2");
+          var elem3 = document.getElementById("bar3");
+          var elem4 = document.getElementById("bar4");
+          const data = await fetch(
+            "https://mixerno.space/api/youtube-channel-counter/user/UCcfWjTmVGZasRkkn0uFGgfg"
+          ).then((res) => res.json());
+          var width = (num) => {
+            return ((data.counts[0].count / num) * 100).toFixed(1);
+          };
+          var id = setInterval(frame, 2000);
+          setInterval(() => {
+            document.getElementById("subCount").innerHTML =
+              "Current subscriber count: " + data.counts[0].count;
+          }, 2000);
+          function frame() {
+            if (width >= 100) {
+              clearInterval(id);
+              i = 0;
+            } else {
+              elem1.style.width = width(500) + "%";
+              elem1.innerHTML = width(500) + "%";
+              elem1.style.opacity = 1;
+
+              elem2.style.width = width(1000) + "%";
+              elem2.innerHTML = width(1000) + "%";
+              elem2.style.opacity = 1;
+
+              elem3.style.width = width(1500) + "%";
+              elem3.innerHTML = width(1500) + "%";
+              elem3.style.opacity = 1;
+
+              elem4.style.width = width(2000) + "%";
+              elem4.innerHTML = width(2000) + "%";
+              elem4.style.opacity = 1;
+            }
+          }
+        }
+      };
+
+      function lightmode() {
+        var element = document.body;
+        element.style.backgroundColor = "white";
+      }
+    </script>
+  </body>
+</html>
